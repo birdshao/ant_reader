@@ -1,0 +1,42 @@
+{
+  "format": "ant-reader-oid-pdf-import/1",
+  "source_pdf": "REPLACE_WITH_OID_ONLY_EXPORT.pdf",
+  "source": "OidProducer/Sonix2 authorized export, version TBD",
+  "dpi": 1200,
+  "threshold": 160,
+  "tiles": [
+    {
+      "id": "entry",
+      "raw_oid": 100001,
+      "page": 1,
+      "rect_mm": [
+        10,
+        10,
+        12,
+        12
+      ]
+    },
+    {
+      "id": "apple_word",
+      "raw_oid": 100002,
+      "page": 1,
+      "rect_mm": [
+        30,
+        10,
+        12,
+        12
+      ]
+    },
+    {
+      "id": "apple_sentence",
+      "raw_oid": 100003,
+      "page": 1,
+      "rect_mm": [
+        50,
+        10,
+        12,
+        12
+      ]
+    }
+  ]
+}
