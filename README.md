@@ -94,3 +94,20 @@ python ant_reader.py generate-ai --topic "动物英语单词" --book-id animals_
   --age 4-6 --count 6 --model YOUR_MODEL --output examples/animals_01.json
 python ant_reader.py prepare --book examples/animals_01.json --out output --tts edge
 ```
+
+
+## OID 物理打印验证工具（新增，2026-10-25）
+
+新增 [oid_lab.py](oid_lab.py) / [打印实验说明](docs/print_lab.md)，进一步推进无贴纸直印主路线。**这不是 A8S 原生码生成器**：拿到 OidProducer 或其它可信编码器产生的真实 PNG 后，工具按源 DPI 以真实物理尺寸嵌入打印页，不对点阵进行拉伸缩放，并留存 SHA-256 审计证据。
+
+```bash
+# 没有 OID 素材也能生成不含微码的 100mm 打印标定页
+python oid_lab.py blank-sheet --out output/a8s_blank_calibration.pdf
+# 准备真实候选码 PNG 后（编辑 JSON 路径和 source_dpi）
+python oid_lab.py candidate-sheet --manifest examples/oid_candidates.example.json --out output/a8s_candidate.pdf
+# A8S 到货后，录入真实点读结果并统计，严禁填写预想结果
+python oid_lab.py record --log output/scan.csv --id entry-56001 --raw-oid 56001 --expected '进入测试书' --observed '无反应' --attempts 20 --correct 0
+python oid_lab.py report --log output/scan.csv
+```
+
+[候选输入示例](examples/oid_candidates.example.json) 的 PNG 路径是占位符，需替换真实候选光学码文件；无此文件时程序会拒绝生成候选测试页。正式的 A8S OID 编码与其 NOD/NOB/NOS 资源包映射仍需实机验证。当前本地 11 项测试通过（几何/日志/异常校验，**不包含识别测试**）。
