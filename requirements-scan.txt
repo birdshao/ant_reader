@@ -1,0 +1,3 @@
+-r requirements.txt
+opencv-contrib-python-headless>=4.9,<5
+numpy>=1.26,<3

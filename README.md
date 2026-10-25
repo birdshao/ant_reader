@@ -210,3 +210,7 @@ python -m unittest discover -s tests -v
 ```powershell
 python scripts/oid_print_stress.py --raw-oid 1345 --dpi 1200 --out output/stress_1200.json
 ```
+
+## OID2 实验打印→扫描→解码（2026-10-25）
+
+新增 [OpenCV 标定卡/识别器](scripts/oid_scan_qa.py) 与 [验收指南](docs/oid_scan_qa.md)。支持输出 A4 70mm 标定卡，四角 ArUco 标记用于相机/扫描仪透视对齐，解码中央 20mm OID2 区域，统计 32x32 重复码块多数值/错误数。安装扫描专用依赖 `pip install -r requirements-scan.txt`。此项目实验只能证明软件数字 OID2 解码；**A8S 识别和原生资源包仍未验证**。
