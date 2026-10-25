@@ -202,3 +202,11 @@ python scripts/sonix_oid2.py render --raw-oid 1345 --dpi 1200 --width-mm 20 --he
 python scripts/sonix_oid2.py verify --png output/oid_raw_1345.png --dpi 1200 --expected-raw-oid 1345
 python -m unittest discover -s tests -v
 ```
+
+## OID2 数字印刷敏感性仿真（设备到货前）
+
+新增 [oid_print_stress.py](scripts/oid_print_stress.py)：对开源 Sonix 风格 OID2 图像做模糊、墨点扩散/漏点、对比度/JPEG 压缩实验，并用已知原点的数字解码器记录正确、错码和无效码块。**不是 A8S 实机识别率**；详见 [实验指南](docs/oid_print_stress.md)。
+
+```powershell
+python scripts/oid_print_stress.py --raw-oid 1345 --dpi 1200 --out output/stress_1200.json
+```
