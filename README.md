@@ -164,3 +164,8 @@ python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output
 ```
 
 **注意**：示例码值是占位符；PDF 栅格化/阈值化可能改变微点几何；A8S 真机兼容性、音频制包/安装仍未解决，不要把该 PDF 当作已可点读的量产书。
+
+
+## 矢量 OID PDF 实验制版（不经过 PNG 二值化）
+
+新增 [`scripts/vector_oid_assembly.py`](scripts/vector_oid_assembly.py)：将外部工具生成的 **OID-only 矢量 PDF** 按毫米尺寸直接平铺入书名入口与教材图文区域，保留矢量图形路径，不经过原先 PDF→PNG 的灰度阈值环节。来源、码值、裁剪尺寸、是否含位图都记录在 `audit.json`。新流程默认阻止缺音频、重复码、背景覆盖及无效来源；它**不能编码 A8S 原生码，也不能生成 NOD/NOB/NOS**，只能作为候选实验。详见 [矢量 PDF 制版指南](docs/vector_pdf_workflow.md)。

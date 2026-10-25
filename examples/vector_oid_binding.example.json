@@ -1,0 +1,27 @@
+{
+  "format": "ant-reader-a8s-vector-bindings/1",
+  "book_id": "albi_oid2_smoke",
+  "cover": {
+    "raw_oid": 1331,
+    "source": "EXAMPLE ONLY — 3rd-party Albi OID2, NOT A8S VERIFIED",
+    "pdf": "codes.pdf",
+    "page": 1,
+    "rect_mm": [5, 5, 19, 19]
+  },
+  "regions": {
+    "albi_oid2_smoke:apple:word": {
+      "raw_oid": 1345,
+      "source": "EXAMPLE ONLY — 3rd-party Albi OID2, NOT A8S VERIFIED",
+      "pdf": "codes.pdf",
+      "page": 2,
+      "rect_mm": [5, 5, 19, 19]
+    },
+    "albi_oid2_smoke:apple:sentence": {
+      "raw_oid": 1347,
+      "source": "EXAMPLE ONLY — 3rd-party Albi OID2, NOT A8S VERIFIED",
+      "pdf": "codes.pdf",
+      "page": 3,
+      "rect_mm": [5, 5, 19, 19]
+    }
+  }
+}
