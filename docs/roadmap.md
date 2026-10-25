@@ -67,3 +67,16 @@
 - [ ] A8S 真实入口码 + 两个内容码的印刷识别和音频包闭环。
 
 **更正兼容性认识**：A8S 品牌讲堂明确表示 DAB 不能直接复制安装，需转成 NOB；不要将其他型号的 DAB 客户端兼容经验推广到 A8S。
+
+
+## M1b — 开源复用与 OidProducer PDF 桥接（2026-10-25）
+- [x] 检索开源完整制书链（tttool/ttbox/ttmp32gme/Albi）；明确其非 A8S 原生包
+- [x] [开源工具/协议适配矩阵](open_source_landscape.md)
+- [x] `scripts/oid_pdf_bridge.py`：外部纯微码 PDF → 指定毫米区域和 DPI 的 RGBA PNG + 来源哈希/审计
+- [x] `scripts/make_oid_binding.py`：封面入口码/全部逻辑区域码一一映射并检查冲突
+- [x] 新增 7 项桥接单元测试，合计 **37 项测试**，GitHub Actions Linux CI 成功
+- [ ] 可信 OidProducer 安装源/授权 + A8S 原生印码输出案例
+- [ ] A8S 实测，验证 PDF 桥接阈值和点阵几何没有造成不可读
+- [ ] A8S 原生 `.nob/.nod` 音频资源包构建及离线导入
+
+注意：外部 OID-only PDF 转 PNG 是**有损风险的栅格化实验**，不能宣称与原始版完全等价；通过 CI 不等于设备兼容。
