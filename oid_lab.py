@@ -87,6 +87,7 @@ def draw_ruler(c, x, y, span=100):
 def make_template(out: Path):
     """Blank check sheet, explicitly no optical codes; useful before A8S/encoder arrive."""
     from reportlab.pdfgen import canvas
+    out.parent.mkdir(parents=True, exist_ok=True)
     c=canvas.Canvas(str(out), pagesize=(210*MM,297*MM))
     c.setTitle("A8S OID Test Layout - BLANK, NO CODES")
     c.setFont('Helvetica-Bold',16)
@@ -114,6 +115,7 @@ def make_candidate_sheet(manifest: Path, out: Path):
     from reportlab.lib.utils import ImageReader
     from reportlab.lib.colors import HexColor
     items=load_candidates(manifest)
+    out.parent.mkdir(parents=True, exist_ok=True)
     audit=[]
     c=canvas.Canvas(str(out),pagesize=(210*MM,297*MM),pageCompression=1)
     c.setTitle("A8S External OID Candidates - EXPERIMENTAL")
