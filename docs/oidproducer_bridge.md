@@ -13,12 +13,12 @@ python scripts/oid_pdf_bridge.py --spec examples/my_oid_pdf_import.json --out ou
 python oid_lab.py candidate-sheet --manifest output/oid_import/oid_candidates.json --out output/oid_import/candidates.pdf
 ```
 
-4. 用 `python ant_reader.py prepare --book examples/starter_en.json --out output --tts edge` 准备教材。在完整分配表中给出入口候选码、每个逻辑区域的候选 id（见 [分配格式示例](../examples/oid_book_assignment.example.json)，需覆盖书中所有区域）。
+4. 用 `python ant_reader.py prepare --book examples/oid_3code_smoke.json --out output --tts edge` 准备教材。在完整分配表中给出入口候选码、每个逻辑区域的候选 id（见 [分配格式示例](../examples/oid_book_assignment.example.json)，需覆盖书中所有区域）。
 5. 继续：
 
 ```powershell
-python scripts/make_oid_binding.py --manifest output/oid_import/oid_candidates.json --assignment examples/my_oid_book_assignment.json --book-dir output/books/starter_en_01 --out output/oid_binding
-python book_assembly.py --book-dir output/books/starter_en_01 --binding output/oid_binding/bindings.json --out output/print_experiment
+python scripts/make_oid_binding.py --manifest output/oid_import/oid_candidates.json --assignment examples/my_oid_book_assignment.json --book-dir output/books/albi_oid2_smoke --out output/oid_binding
+python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output/oid_binding/bindings.json --out output/print_experiment
 ```
 
 输出包含 `oid_candidates.json`、`source_audit.json`、`tiles/*.png`、`bindings.json`、实验打印 PDF 和非可安装的音频交付清单。
