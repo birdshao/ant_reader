@@ -147,3 +147,20 @@ python a8s_device_audit.py header --file "E:\BOOK\sample.nob" --out evidence\hea
 ```
 
 **代码不会写入设备；默认只记录疑似点读文件相对路径、大小和有上限的 SHA-256。** 这一步帮助确认 A8S 的真实资源包存储行为，不能推断 OID 光学码或绕过授权。详见 [A8S USB 只读证据链](docs/a8s_usb_evidence.md)。
+
+
+## OidProducer/Sonix2 PDF 光学码桥接与开源调研（2026-10-25）
+
+已确认 [tttool](https://github.com/entropia/tip-toi-reveng)、[ttbox](https://github.com/cleracruza/ttbox) 和 [ttmp32gme](https://github.com/thawn/ttmp32gme) 提供其他品牌的整套制书链，但**暂未发现可生成 A8S 原生 NOD/NOB/NOS 点读包的可信开源工具**。详见 [开源工具兼容性调查](docs/open_source_landscape.md)。
+
+新增 [OID-only PDF 导入](scripts/oid_pdf_bridge.py)、[入口码/区域码绑定](scripts/make_oid_binding.py) 与 [操作指南](docs/oidproducer_bridge.md)：通过厂商可信工具输出纯微码 PDF，按物理毫米坐标/DPI 裁取成 PNG，再结合 `book_assembly.py` 制作实验打印 PDF。
+
+```powershell
+python ant_reader.py prepare --book examples/oid_3code_smoke.json --out output --tts edge
+# 先将已授权源 PDF 和真实码值写入自己的 my_oid_pdf_import.json
+python scripts/oid_pdf_bridge.py --spec examples/my_oid_pdf_import.json --out output/oid_import
+python scripts/make_oid_binding.py --manifest output/oid_import/oid_candidates.json --assignment examples/oid_book_assignment.example.json --book-dir output/books/albi_oid2_smoke --out output/oid_binding
+python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output/oid_binding/bindings.json --out output/oid_experiment
+```
+
+**注意**：示例码值是占位符；PDF 栅格化/阈值化可能改变微点几何；A8S 真机兼容性、音频制包/安装仍未解决，不要把该 PDF 当作已可点读的量产书。
