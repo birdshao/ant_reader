@@ -8,6 +8,8 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
+import urllib.request
 import re
 import shutil
 import subprocess
@@ -241,14 +243,54 @@ def compose(args):
         rect = fitz.Rect(x,y,x+area["width_mm"]*MM,y+area["height_mm"]*MM)
         doc[area["page"]-1].insert_image(rect, filename=str(pattern), overlay=True,
                                           keep_proportion=False)
-    if args.experimental:
-        for page in doc:
-            page.insert_text((16*MM, 13*MM), "EXPERIMENTAL OID, NOT VERIFIED ON A8S",
-                             fontsize=8, color=(0.75,0.15,0.12), overlay=True)
+    for page in doc:
+        # Remove "unencoded" footer inherited from the artwork-only PDF.
+        h = page.rect.height
+        page.draw_rect(fitz.Rect(8*MM,h-15*MM,page.rect.width-8*MM,h-2*MM),
+                       color=None,fill=(0.984,0.980,0.965),overlay=True)
+        label = ("EXPERIMENTAL OID, NOT VERIFIED ON A8S" if args.experimental
+                 else "OID ASSETS OPERATOR VERIFIED; PRINT QUALITY MUST STILL BE TESTED")
+        page.insert_text((12*MM,h-8*MM), label,
+                         fontsize=8, color=(0.75,0.15,0.12), overlay=True)
     target=bookdir / ("experimental_print.pdf" if args.experimental else "print_ready.pdf")
     doc.save(target, garbage=4, deflate=True)
     doc.close()
     print(f"Created {target}; printing and hardware recognition still require testing")
+
+
+def generate_ai(args):
+    """Generate original editable JSON draft using a Chat Completions API."""
+    api_key = os.getenv("ANT_READER_API_KEY") or os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("Set ANT_READER_API_KEY or OPENAI_API_KEY in environment")
+    book_id = slug(args.book_id)
+    prompt = (
+        "Create original, age-appropriate beginner English cards for children. "
+        "Return exactly one JSON object with fields book_id, title and items. "
+        "Each item has key (short ASCII slug), english (one English word), "
+        "chinese (Chinese translation), sentence (short grammatical English sentence). "
+        "Avoid copyrighted characters or excerpts. Do not use markdown. "
+        f"Write exactly {args.count} unique items for topic {args.topic}, age {args.age}. "
+        f"The book_id must be {book_id}."
+    )
+    body = {"model": args.model,
+            "messages": [{"role":"system", "content":"You write child-safe educational material as strict JSON."},
+                         {"role":"user", "content":prompt}],
+            "response_format":{"type":"json_object"}}
+    req = urllib.request.Request(args.endpoint,
+        data=json.dumps(body,ensure_ascii=False).encode("utf-8"),
+        headers={"Content-Type":"application/json","Authorization":f"Bearer {api_key}"},
+        method="POST")
+    with urllib.request.urlopen(req, timeout=90) as response:
+        raw=json.load(response)
+    book=json.loads(raw["choices"][0]["message"]["content"])
+    book["book_id"]=book_id
+    validate_book(book)
+    if len(book["items"])!=args.count:
+        raise ValueError(f"Expected {args.count} items; got {len(book['items'])}")
+    target=Path(args.output)
+    save_json(target,book)
+    print(f"Saved AI draft to {target}. REVIEW text and age suitability before printing.")
 
 
 def main():
@@ -262,6 +304,12 @@ def main():
     c.add_argument("--out",default="output");c.add_argument("--book-id",required=True)
     c.add_argument("--mapping",required=True);c.add_argument("--dpi",type=int,default=600)
     c.add_argument("--experimental",action="store_true");c.set_defaults(func=compose)
+    g=commands.add_parser("generate-ai",help="Create original child-friendly book JSON via Chat Completions")
+    g.add_argument("--topic",required=True);g.add_argument("--book-id",required=True)
+    g.add_argument("--age",default="4-6");g.add_argument("--count",type=int,default=6)
+    g.add_argument("--model",required=True);g.add_argument("--output",required=True)
+    g.add_argument("--endpoint",default="https://api.openai.com/v1/chat/completions")
+    g.set_defaults(func=generate_ai)
     a=p.parse_args()
     try:a.func(a)
     except Exception as exc:

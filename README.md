@@ -83,3 +83,14 @@ python ant_reader.py compose --out output --book-id starter_en_01 \
 
 `mappings.json` 的格式见 [架构与接口](docs/architecture.md)。**没有真实有效的图案输入就不能生成真正可点读的 PDF。** `compose` 只负责物理尺寸不失真的叠层，不会凭空生成 OID 码。
 
+
+### AI 生成原创教材初稿
+
+此功能已纳入 CLI，但需要自己的 API 密钥与模型；**尚未在真实在线 API 上测试**。输出必须人工审核后才能给儿童使用：
+
+```bash
+# 在系统环境变量中设置 OPENAI_API_KEY，勿提交 .env / 令牌
+python ant_reader.py generate-ai --topic "动物英语单词" --book-id animals_01 \
+  --age 4-6 --count 6 --model YOUR_MODEL --output examples/animals_01.json
+python ant_reader.py prepare --book examples/animals_01.json --out output --tts edge
+```
