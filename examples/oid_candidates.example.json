@@ -1,0 +1,11 @@
+{
+  "candidates": [
+    {
+      "id": "entry-56001",
+      "raw_oid": 56001,
+      "image": "YOUR_REAL_OID_IMAGE.png",
+      "source": "operator-export-OidProducer-UNVERIFIED-on-A8S",
+      "source_dpi": 1200
+    }
+  ]
+}
