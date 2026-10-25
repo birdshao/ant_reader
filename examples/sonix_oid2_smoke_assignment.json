@@ -1,0 +1,9 @@
+{
+  "book_id": "albi_oid2_smoke",
+  "cover_raw_oid": 1331,
+  "regions": {
+    "albi_oid2_smoke:apple:word": 1345,
+    "albi_oid2_smoke:apple:sentence": 1347
+  },
+  "WARNING": "These raw values are Albi/Sonix-style research candidates, not certified A8S codes."
+}
