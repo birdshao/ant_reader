@@ -111,3 +111,8 @@ python oid_lab.py report --log output/scan.csv
 ```
 
 [候选输入示例](examples/oid_candidates.example.json) 的 PNG 路径是占位符，需替换真实候选光学码文件；无此文件时程序会拒绝生成候选测试页。正式的 A8S OID 编码与其 NOD/NOB/NOS 资源包映射仍需实机验证。当前本地 11 项测试通过（几何/日志/异常校验，**不包含识别测试**）。
+
+
+### 真实第三方 OID2 候选生成（仅做兼容性研究）
+
+GitHub Actions 新增 [Albi OID2 候选码工作流](.github/workflows/oid2-candidates.yml)，使用固定版本的 [Albi_tuzka](https://github.com/JanValiVales/Albi_tuzka) 开源编码器输出 1200 DPI 图案、码值审计及实验 PDF；点击 [成功构建记录](https://github.com/birdshao/ant_reader/actions/runs/40192874945) 下载 artifact。该编码器的内部 ID 100/101/102 分别映射到 raw OID 1331/1345/1347；这是 **Albi 码制**，不是已经确认的 A8S 码制，也尚未完成任何 A8S 实机扫描。详见 [实验说明](docs/print_lab.md)。
