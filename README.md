@@ -169,3 +169,8 @@ python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output
 ## 矢量 OID PDF 实验制版（不经过 PNG 二值化）
 
 新增 [`scripts/vector_oid_assembly.py`](scripts/vector_oid_assembly.py)：将外部工具生成的 **OID-only 矢量 PDF** 按毫米尺寸直接平铺入书名入口与教材图文区域，保留矢量图形路径，不经过原先 PDF→PNG 的灰度阈值环节。来源、码值、裁剪尺寸、是否含位图都记录在 `audit.json`。新流程默认阻止缺音频、重复码、背景覆盖及无效来源；它**不能编码 A8S 原生码，也不能生成 NOD/NOB/NOS**，只能作为候选实验。详见 [矢量 PDF 制版指南](docs/vector_pdf_workflow.md)。
+
+
+## A8S 原生资源包只读分析
+
+新增 [`scripts/native_pack_lab.py`](scripts/native_pack_lab.py)，支持合法持有的 `.nob/.nod/.nos` 样本**只读结构检查**与双文件差异对比：格式魔数、SHA-256、分块熵、公共前后缀及变化区域。报告不含音频主体，不上传用户文件，不覆盖现有取证结果。该工具**不是** A8S 原生制包器，无法解出码表；[操作和解释边界](docs/native_pack_lab.md)。本地共 56 项软件测试通过（未接触 A8S）。

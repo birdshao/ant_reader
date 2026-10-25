@@ -14,3 +14,6 @@ output/
 *.nos
 *.dab
 *.bnf
+
+# Legally owned test package samples: never upload private binaries
+/private_samples/
