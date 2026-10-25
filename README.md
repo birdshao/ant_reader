@@ -186,3 +186,19 @@ python scripts/controlled_delta_lab.py --spec controlled_delta.json --out eviden
 ```
 
 示例配置：[controlled_delta.example.json](examples/controlled_delta.example.json)。本轮本地 69 项软件测试通过，含独立 CLI 测试；**仍没有完成 A8S 真实 NOB 解码/制包或实机扫描**。
+
+
+## Sonix-style OID2 raw code encoder (2026-10-25)
+
+**Key advance:** `scripts/sonix_oid2.py` now generates actual 16-bit Sonix-style OID2 printed dot tiles directly in Python, without the OidProducer Windows GUI. The independent upstream comparison is **pixel-exact for three codes** (1331 / 1345 / 1347) at 1200 DPI. The source formula was documented in the MPL-2.0 Albi project and traces a specific `OidProducer10.20.exe` index↔raw conversion table. There is a separate safe parser for the *open-source* literal table; do not assume a numeric offset mapping. `scripts/make_sonix_oid2_binding.py` integrates a candidate book with existing `book_assembly.py`.
+
+**Not yet solved:** A8S native optical compatibility, A8S-specific code pool, `NOB/NOD/NOS` resource pack creation and physical pen recognition. Generated files are experiments, not proven playable books.
+
+- [Detailed coding rules and reproducible commands](docs/sonix_oid2_encoding.md)
+- [Sample two-region OID2 assignment](examples/sonix_oid2_smoke_assignment.json)
+
+```bash
+python scripts/sonix_oid2.py render --raw-oid 1345 --dpi 1200 --width-mm 20 --height-mm 20 --out output/oid_raw_1345.png
+python scripts/sonix_oid2.py verify --png output/oid_raw_1345.png --dpi 1200 --expected-raw-oid 1345
+python -m unittest discover -s tests -v
+```
