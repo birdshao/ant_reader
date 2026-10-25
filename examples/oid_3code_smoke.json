@@ -1,0 +1,12 @@
+{
+  "book_id": "albi_oid2_smoke",
+  "title": "打印微码三点实验",
+  "items": [
+    {
+      "key": "apple",
+      "english": "Apple",
+      "chinese": "苹果",
+      "sentence": "This is an apple."
+    }
+  ]
+}

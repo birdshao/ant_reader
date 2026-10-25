@@ -116,3 +116,18 @@ python oid_lab.py report --log output/scan.csv
 ### 真实第三方 OID2 候选生成（仅做兼容性研究）
 
 GitHub Actions 新增 [Albi OID2 候选码工作流](.github/workflows/oid2-candidates.yml)，使用固定版本的 [Albi_tuzka](https://github.com/JanValiVales/Albi_tuzka) 开源编码器输出 1200 DPI 图案、码值审计及实验 PDF；点击 [成功构建记录](https://github.com/birdshao/ant_reader/actions/runs/40192874945) 下载 artifact。该编码器的内部 ID 100/101/102 分别映射到 raw OID 1331/1345/1347；这是 **Albi 码制**，不是已经确认的 A8S 码制，也尚未完成任何 A8S 实机扫描。详见 [实验说明](docs/print_lab.md)。
+
+
+## 实验书：三码入口 + 全页微码铺设 + 音频交付（2026-10-25）
+
+新增 `book_assembly.py`：在 `ant_reader.py prepare` 生成的 PDF 上按**真实物理 DPI**重复铺入外部光学码图案，不缩放、不切半码，支持独立封面入口码，生成 CSV/MP3 和非可安装的厂商交付 ZIP。**它不是 A8S 原生 OID 编码器和点读包生成器**。参阅 [三码实验指南](docs/one_card_smoke.md)。
+
+```bash
+# 先准备一张图卡（或按指南从已成功的 GitHub Actions 下载 3 个 Albi OID2 图）
+python ant_reader.py prepare --book examples/oid_3code_smoke.json --out output --tts edge
+# 将已验证来源的候选 PNG 和代码清单放入工作区，再运行：
+python scripts/make_albi_smoke_binding.py --manifest output/albi_oid2/albi_candidates.json --book-dir output/books/albi_oid2_smoke --out output/oid_bindings
+python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output/oid_bindings/bindings.json --out output/albi_oid2_smoke_handoff
+```
+
+当前所有候选码值与音频映射均 **UNVERIFIED ON A8S**。不要将实验 ZIP 当点读包安装。

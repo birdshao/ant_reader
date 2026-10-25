@@ -126,7 +126,7 @@ def make_layout(book, ids, pdf_path: Path):
             c.setFillColor(HexColor("#344054")); c.setFont("Helvetica-Bold", 17)
             c.drawCentredString(left + width*MM/2, bottom + 37*MM, item["english"])
             c.setFont(font, 10); c.drawCentredString(left + width*MM/2, bottom + 29*MM, item["chinese"])
-            sx, sy, sw, sh = left + 4*MM, bottom + 6*MM, 81.5*MM, 19*MM
+            sx, sy, sw, sh = left + 4*MM, bottom + 3*MM, 81.5*MM, 25*MM
             c.setFillColor(HexColor("#FFF6E6")); c.roundRect(sx, sy, sw, sh, 3*MM, fill=1, stroke=0)
             c.setFillColor(HexColor("#445469")); c.setFont("Helvetica", 9)
             c.drawCentredString(sx + sw/2, sy + 8*MM, item["sentence"])
