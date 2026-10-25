@@ -56,3 +56,14 @@
 详见 [docs/print_lab.md](print_lab.md)。
 
 注意：针对 A8S 的资料提到 NOD/NOB/NOS 资源包与 DAB 转换；**不能默认 DAB 直接复制可用**。第三方 Albi/Tiptoi 的 OID2 图案为不同生态，不能将其兼容性直接推定到 A8S。
+
+## M1b — A8S 原生资源包证据（2026-10-25）
+
+- [x] 新增 `a8s_device_audit.py`：只读的 USB 存储快照、SHA-256、安装前后差异、资源包前 64 字节审计；**不生成或解码 A8S 包**。
+- [x] 11 项模拟设备/资源包测试；与既有 19 项联合为 30 项本地测试。
+- [x] A8S Windows 取证 SOP：`docs/a8s_usb_evidence.md`。
+- [ ] A8S 实笔到货后检查是否暴露 USB 书库；如否，转向官方账号/厂商合成工具的授权路径。
+- [ ] 官方渠道安装原创/授权最小点读包后采集 `before.json/after.json/delta.json`。
+- [ ] A8S 真实入口码 + 两个内容码的印刷识别和音频包闭环。
+
+**更正兼容性认识**：A8S 品牌讲堂明确表示 DAB 不能直接复制安装，需转成 NOB；不要将其他型号的 DAB 客户端兼容经验推广到 A8S。

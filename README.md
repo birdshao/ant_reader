@@ -131,3 +131,19 @@ python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output
 ```
 
 当前所有候选码值与音频映射均 **UNVERIFIED ON A8S**。不要将实验 ZIP 当点读包安装。
+
+## A8S 设备和官方资源包安装差异探测（只读）
+
+新增 `a8s_device_audit.py`，提供以下独立于无贴纸铺码主线的**证据采集**步骤；不构成点读包解码器：
+
+```powershell
+# A8S USB 暴露为 E: 时（请替换实际盘符）
+python a8s_device_audit.py snapshot --root E:\ --out evidence\before.json
+# 在官方客户端合法安装一本自己持有的书，并确认点读后：
+python a8s_device_audit.py snapshot --root E:\ --out evidence\after.json
+python a8s_device_audit.py diff --before evidence\before.json --after evidence\after.json --out evidence\delta.json
+# 如有本地包可研究，可生成受限的文件头审计：
+python a8s_device_audit.py header --file "E:\BOOK\sample.nob" --out evidence\header.json
+```
+
+**代码不会写入设备；默认只记录疑似点读文件相对路径、大小和有上限的 SHA-256。** 这一步帮助确认 A8S 的真实资源包存储行为，不能推断 OID 光学码或绕过授权。详见 [A8S USB 只读证据链](docs/a8s_usb_evidence.md)。
