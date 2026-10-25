@@ -214,3 +214,15 @@ python scripts/oid_print_stress.py --raw-oid 1345 --dpi 1200 --out output/stress
 ## OID2 实验打印→扫描→解码（2026-10-25）
 
 新增 [OpenCV 标定卡/识别器](scripts/oid_scan_qa.py) 与 [验收指南](docs/oid_scan_qa.md)。支持输出 A4 70mm 标定卡，四角 ArUco 标记用于相机/扫描仪透视对齐，解码中央 20mm OID2 区域，统计 32x32 重复码块多数值/错误数。安装扫描专用依赖 `pip install -r requirements-scan.txt`。此项目实验只能证明软件数字 OID2 解码；**A8S 识别和原生资源包仍未验证**。
+
+
+## 无 ArUco 的 OID2 局部扫描识别（实验）
+
+新增 [`scripts/oid_markerless.py`](scripts/oid_markerless.py)：给定一张只含**一个重复 OID2 码值**的局部扫描图，自动估算网格、校正转角、识别不对称定位点并恢复原始 raw OID，**不需要 ArUco 标记，也不需要预先输入正确码值**。独立的 [操作说明及技术限制](docs/oid_markerless.md)。
+
+```bash
+pip install -r requirements-scan.txt
+python scripts/oid_markerless.py --image scans/crop.png --approx-pitch-px 16 --out evidence/local_decode.json
+```
+
+该工具尚不支持任意整页自动寻找微码位置，且只经过合成图像测试，**不代表小蝌蚪 A8S 能正确点读**。
