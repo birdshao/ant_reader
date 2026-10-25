@@ -60,3 +60,10 @@ python oid_lab.py report --log scan_results.csv --out scan_report.json
 - [传统开放式点读笔铺码/点读包教程](https://www.bilibili.com/video/BV1RG4y1Y7wx/)
 - [Albi/Tiptoi OID 物理码尺寸不同的分析](https://tatageek.blog/2021/01/28/jak-funguje-albi-tuzka/)
 - [工业 OID 打印精度建议：1200 DPI、碳黑、尺寸检查](https://www.talkpens.com/info/oid-printing-requirements2-20025970.html)
+
+
+## 6. 可复现的 Albi OID2 对照码生成（实验，不代表 A8S 兼容）
+
+GitHub Actions 工作流 [oid2-candidates.yml](../.github/workflows/oid2-candidates.yml) 自动固定第三方 Albi_tuzka 提交 `04dbe89903534bc2b0b661684ad514f269217775`，分别用其 **内部编号** 100、101、102 生成 1200 DPI、20×20mm 的 OID2 PNG，同时读取其 `bnl_utils.oid_table` 取得**实际 raw OID**（两者不相等时绝不混为一谈）。然后调用我们的 `candidate-sheet` 生成实验打印 PDF 和 SHA-256 审计报告，上传为 GitHub Actions artifact。MPL 上游源码不复制入本仓库。
+
+请不要将这组 OID2 候选标注为“小蝌蚪有效码”；若 A8S 无法识别，只能说明当前码制/固件/书包/打印条件下没有打通，不能推断整机不支持铺码。优先使用厂家或 OidProducer 可确认的码图与配套书包进行真正闭环验证。
