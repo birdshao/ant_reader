@@ -1,5 +1,7 @@
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import unittest
@@ -105,6 +107,12 @@ class ControlledDeltaTests(unittest.TestCase):
         case=self.case(before_oid=25001,after_oid=250011)
         x=lab.analyze(self.spec([case]))['cases'][0]
         self.assertEqual(x['numeric_substitution_hypotheses'],[])
+
+    def test_script_cli_entrypoint(self):
+        script = Path(__file__).resolve().parents[1] / 'scripts' / 'controlled_delta_lab.py'
+        proc = subprocess.run([sys.executable, str(script), '--help'],
+                              cwd=str(script.parents[1]), capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
 
     def test_scan_mib_bound(self):
         self.file('base.nob',b'a');self.file('new.nob',b'b')
