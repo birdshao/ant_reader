@@ -12,7 +12,10 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-from scripts.native_pack_lab import checked_file, file_sha256
+try:
+    from scripts.native_pack_lab import checked_file, file_sha256
+except ModuleNotFoundError:  # direct script invocation
+    from native_pack_lab import checked_file, file_sha256
 
 SCHEMA = 'ant-reader-controlled-delta-spec/1'
 REPORT = 'ant-reader-controlled-delta-report/1'
