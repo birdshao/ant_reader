@@ -1,0 +1,32 @@
+name: Albi OID2 Research Candidates (NOT A8S)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - scripts/build_albi_candidates.py
+      - .github/workflows/oid2-candidates.yml
+permissions:
+  contents: read
+jobs:
+  oid2-candidates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install requirements
+        run: python -m pip install -r requirements.txt pyyaml mutagen
+      - name: Check out upstream Albi code at fixed SHA
+        run: |
+          git clone --quiet https://github.com/JanValiVales/Albi_tuzka.git /tmp/albi_tuzka
+          git -C /tmp/albi_tuzka checkout --detach 04dbe89903534bc2b0b661684ad514f269217775
+          test "$(git -C /tmp/albi_tuzka rev-parse HEAD)" = '04dbe89903534bc2b0b661684ad514f269217775'
+      - name: Generate third-party candidate OID2 patterns
+        run: python scripts/build_albi_candidates.py --albi /tmp/albi_tuzka --out output/albi_oid2 --internal 100,101,102 --dpi 1200
+      - uses: actions/upload-artifact@v4
+        with:
+          name: albi-oid2-candidates-UNVERIFIED-A8S
+          path: output/albi_oid2/
+          retention-days: 30
