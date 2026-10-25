@@ -1,0 +1,25 @@
+{
+  "format": "ant-reader-controlled-delta-spec/1",
+  "baseline": "private_samples/book_base.nob",
+  "cases": [
+    {
+      "id": "only_content_oid_1",
+      "changed_only": "raw_oid",
+      "variant": "private_samples/book_oid_1.nob",
+      "before_oid": 30001,
+      "after_oid": 30002
+    },
+    {
+      "id": "only_content_oid_2",
+      "changed_only": "raw_oid",
+      "variant": "private_samples/book_oid_2.nob",
+      "before_oid": 30001,
+      "after_oid": 30003
+    },
+    {
+      "id": "only_audio",
+      "changed_only": "audio",
+      "variant": "private_samples/book_audio_changed.nob"
+    }
+  ]
+}
