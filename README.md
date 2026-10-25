@@ -174,3 +174,15 @@ python book_assembly.py --book-dir output/books/albi_oid2_smoke --binding output
 ## A8S 原生资源包只读分析
 
 新增 [`scripts/native_pack_lab.py`](scripts/native_pack_lab.py)，支持合法持有的 `.nob/.nod/.nos` 样本**只读结构检查**与双文件差异对比：格式魔数、SHA-256、分块熵、公共前后缀及变化区域。报告不含音频主体，不上传用户文件，不覆盖现有取证结果。该工具**不是** A8S 原生制包器，无法解出码表；[操作和解释边界](docs/native_pack_lab.md)。本地共 56 项软件测试通过（未接触 A8S）。
+
+
+## A8S 原生包控制变量实验（2026-10-25）
+
+新增 [controlled_delta_lab.py](scripts/controlled_delta_lab.py) 和 [控制变量实验指导](docs/controlled_delta_experiments.md)，在自己合法获得的多份最小资源包中，比较**只改内容 OID**或**只改音频**造成的变化。同尺寸情况下记录精确变动字节范围，并搜索同偏移的 16/32 位大小端或 ASCII 数字替换候选；跨两个 OID 变体进一步交叉检查。实验值和猜测位置不等于 A8S 真实格式规范。
+
+```powershell
+# 编辑示例中的假设码值和文件名，不要公开上传原生包
+python scripts/controlled_delta_lab.py --spec controlled_delta.json --out evidence/controlled_delta_report.json
+```
+
+示例配置：[controlled_delta.example.json](examples/controlled_delta.example.json)。本轮本地 69 项软件测试通过，含独立 CLI 测试；**仍没有完成 A8S 真实 NOB 解码/制包或实机扫描**。
