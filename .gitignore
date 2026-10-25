@@ -5,3 +5,12 @@ output/
 *.pyc
 .env
 .DS_Store
+
+# Device audits and copyrighted/proprietary pen resource bundles: keep local
+/evidence/
+/device_backups/
+*.nod
+*.nob
+*.nos
+*.dab
+*.bnf
