@@ -1,0 +1,30 @@
+{
+  "book_id": "starter_en_01",
+  "title": "我的第一本英语点读卡",
+  "items": [
+    {
+      "key": "apple",
+      "english": "Apple",
+      "chinese": "苹果",
+      "sentence": "This is an apple."
+    },
+    {
+      "key": "cat",
+      "english": "Cat",
+      "chinese": "猫",
+      "sentence": "The cat is sleeping."
+    },
+    {
+      "key": "dog",
+      "english": "Dog",
+      "chinese": "狗",
+      "sentence": "I see a dog."
+    },
+    {
+      "key": "sun",
+      "english": "Sun",
+      "chinese": "太阳",
+      "sentence": "The sun is bright."
+    }
+  ]
+}
