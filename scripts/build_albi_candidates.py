@@ -12,6 +12,7 @@ ALBI_SHA = "04dbe89903534bc2b0b661684ad514f269217775"
 
 
 def build(albi: Path, out: Path, internal_ids: list[int], dpi: int):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     from oid_lab import make_candidate_sheet
     if not (albi / "oid_png_generator.py").is_file() or not (albi / "bnl_utils.py").is_file():
         raise FileNotFoundError("Provide a checked-out Albi_tuzka tree")
