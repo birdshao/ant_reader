@@ -1,7 +1,7 @@
 {
   "cover": "entry",
   "regions": {
-    "starter_en_01:apple:word": "apple_word",
-    "starter_en_01:apple:sentence": "apple_sentence"
+    "albi_oid2_smoke:apple:word": "apple_word",
+    "albi_oid2_smoke:apple:sentence": "apple_sentence"
   }
 }
