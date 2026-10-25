@@ -57,3 +57,29 @@ AI 文案 / 插画 / TTS
 - [小达人传统点读包制作流程](https://www.bilibili.com/video/BV1RG4y1Y7wx/)
 
 **原则：用脚本生成内容和页面，保留编码器适配层；把“页面编号、光学原始码、内容贴编号、资源包音频索引”分开存储。**
+
+## 本仓库现在可运行的部分
+
+环境：Python 3.10+；安装 `requirements.txt`，系统需支持中文字体（Windows 微软雅黑或 Linux Noto Sans CJK）。
+
+```bash
+pip install -r requirements.txt
+# 不生成音频，只生成底图和完整微码区域信息（完全离线）
+python ant_reader.py prepare --book examples/starter_en.json --out output --tts none
+# 可选，调用在线英文 TTS 生成真正 MP3
+pip install edge-tts
+python ant_reader.py prepare --book examples/starter_en.json --out output --tts edge
+python -m unittest discover -s tests -v
+```
+
+结果位于 `output/books/starter_en_01/`：`artwork.pdf` 是完整教材底图（但还没有 OID 码），`regions.json` 是整片图文区域的毫米坐标，`mapping_template.csv` 供外部 OID 工具填入码值、图案路径，`audio_manifest.json` 是音频索引。
+
+获取经 A8S 测试的透明 OID PNG 后，使用下述命令组合成实验打印版：
+
+```bash
+python ant_reader.py compose --out output --book-id starter_en_01 \
+  --mapping mappings.json --dpi 600 --experimental
+```
+
+`mappings.json` 的格式见 [架构与接口](docs/architecture.md)。**没有真实有效的图案输入就不能生成真正可点读的 PDF。** `compose` 只负责物理尺寸不失真的叠层，不会凭空生成 OID 码。
+
