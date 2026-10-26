@@ -51,7 +51,7 @@ def ensure_shape(data: np.ndarray) -> tuple[int, int]:
 
 
 @contextmanager
-def open_page(path: Path) -> Iterator[tuple[np.ndarray, str]]:
+def open_page(path: Path, *, preserve_color: bool = False) -> Iterator[tuple[np.ndarray, str]]:
     """Read-only view; big TIFF is memory-mapped, never decoded at full size."""
     if not path.is_file() or path.is_symlink():
         raise ValueError('Input must be an existing non-symlink regular file')
@@ -84,11 +84,14 @@ def open_page(path: Path) -> Iterator[tuple[np.ndarray, str]]:
             width, height = img.size
             if width * height > MAX_IN_MEMORY_PIXELS:
                 raise ValueError('PNG/JPEG exceeds 30 MP: convert to uncompressed 8-bit TIFF for memory-mapped analysis')
-        raw = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
+        raw = cv2.imread(str(path), cv2.IMREAD_COLOR if preserve_color else cv2.IMREAD_GRAYSCALE)
         if raw is None:
             raise ValueError('OpenCV could not decode image')
+        if preserve_color:
+            # Keep one explicit channel convention in the complete tiled pipeline.
+            raw = cv2.cvtColor(raw, cv2.COLOR_BGR2RGB)
         ensure_shape(raw)
-        yield raw, 'IN_MEMORY_IMAGE'
+        yield raw, 'IN_MEMORY_IMAGE' 
 
 
 def gray_tile(page: np.ndarray, x: int, y: int, width: int, height: int) -> np.ndarray:
