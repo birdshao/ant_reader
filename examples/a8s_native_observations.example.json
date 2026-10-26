@@ -1,0 +1,29 @@
+{
+  "format": "ant-reader-a8s-native-observations/1",
+  "observations": [
+    {
+      "book_id": "albi_oid2_smoke",
+      "raw_oid": 1331,
+      "vendor_code": 100,
+      "evidence": "unverified_hypothesis",
+      "confirmed": false,
+      "source_note": "EXAMPLE ONLY: upstream Albi internal index; not an A8S observation"
+    },
+    {
+      "book_id": "albi_oid2_smoke",
+      "raw_oid": 1345,
+      "vendor_code": 101,
+      "evidence": "unverified_hypothesis",
+      "confirmed": false,
+      "source_note": "EXAMPLE ONLY: upstream Albi internal index; not an A8S observation"
+    },
+    {
+      "book_id": "albi_oid2_smoke",
+      "raw_oid": 1347,
+      "vendor_code": 102,
+      "evidence": "unverified_hypothesis",
+      "confirmed": false,
+      "source_note": "EXAMPLE ONLY: upstream Albi internal index; not an A8S observation"
+    }
+  ]
+}
