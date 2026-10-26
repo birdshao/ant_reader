@@ -29,6 +29,11 @@ class MappingTests(unittest.TestCase):
         self.assertFalse(report['ready_for_vendor_staging'])
         self.assertEqual(report['confirmed_observations'],0)
 
+    def test_large_vendor_client_code_not_conflated_with_oid2_raw(self):
+        rows=m.observations(self.spec([r(1345,100000)]))
+        self.assertEqual(rows[0]['vendor_code'],100000)
+        with self.assertRaises(ValueError):m.observations(self.spec([r(1345,2**32)]))
+
     def test_confirmed_records_can_be_analyzed(self):
         info=m.analyze(m.observations(self.spec([r(1345,101),r(1347,102)])))
         self.assertTrue(info['ready_for_vendor_staging'])

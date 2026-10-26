@@ -18,7 +18,6 @@ SCHEMA = 'ant-reader-a8s-native-observations/1'
 REPORT = 'ant-reader-a8s-native-mapping-report/1'
 EVIDENCE = {'vendor_client_measured', 'authorized_vendor_document',
             'a8s_device_event', 'unverified_hypothesis'}
-BOOL = {True, False}
 
 
 def sha256(path: Path) -> str:
@@ -32,6 +31,13 @@ def sha256(path: Path) -> str:
 def oid(value: object, label: str) -> int:
     if type(value) is not int or not 0 <= value <= 65535:
         raise ValueError(f'{label} must be a 16-bit integer (bool forbidden)')
+    return value
+
+
+def vendor_code(value: object) -> int:
+    # Vendor GUI/firmware code width is unknown; do not cap it at OID2's 16 bits.
+    if type(value) is not int or not 0 <= value <= 0xffffffff:
+        raise ValueError('vendor_code must be uint32 (the actual A8S width is unknown)')
     return value
 
 
@@ -62,7 +68,7 @@ def observations(path: Path) -> list[dict]:
             raise ValueError(f'observations[{i}]: expected object')
         b = book_id(row.get('book_id'))
         raw = oid(row.get('raw_oid'), 'raw_oid')
-        vendor = oid(row.get('vendor_code'), 'vendor_code')
+        vendor = vendor_code(row.get('vendor_code'))
         evidence = row.get('evidence')
         if evidence not in EVIDENCE:
             raise ValueError('Invalid evidence type')
