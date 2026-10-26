@@ -226,3 +226,14 @@ python scripts/oid_markerless.py --image scans/crop.png --approx-pitch-px 16 --o
 ```
 
 该工具尚不支持任意整页自动寻找微码位置，且只经过合成图像测试，**不代表小蝌蚪 A8S 能正确点读**。
+
+## 大尺寸 A4 扫描的分块 OID2 识别（实验）
+
+新增 [高分辨率分块扫描器](scripts/oid_large_page.py)、[11 项测试](tests/test_oid_large_page.py)和[使用说明](docs/oid_large_page.md)。对 1200 DPI A4 图像，使用未压缩的 8-bit 单页 TIFF 和只读内存映射逐块检测，合并多个窗口发现的相同 raw_oid；PNG/JPEG 仍限制在 30 MP，防止静默加载超大图片。
+
+```powershell
+pip install -r requirements-scan.txt
+python scripts/oid_large_page.py --image scans/a4_1200dpi_uncompressed.tif --approx-pitch-px 16 --out evidence/a4.json --preview evidence/a4_preview.png
+```
+
+**仅为 Sonix 风格 OID2 软件图像分析；未验证实体纸张或小蝌蚪 A8S。**

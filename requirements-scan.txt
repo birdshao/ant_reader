@@ -1,3 +1,4 @@
 -r requirements.txt
 opencv-contrib-python-headless>=4.9,<5
 numpy>=1.26,<3
+tifffile>=2024.6,<2028
